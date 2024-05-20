@@ -1,27 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject PausePanel;
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField] GameObject pauseMenu;
     public void Pause()
     {
-        PausePanel.SetActive(true);
-        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
     }
 
-    public void Continue()
+    public void Home()
     {
-        PausePanel.SetActive(false);
-        Time.timeScale = 1;
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
