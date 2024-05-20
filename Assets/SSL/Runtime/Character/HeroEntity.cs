@@ -27,6 +27,8 @@ public class HeroEntity : MonoBehaviour
     [SerializeField] private HeroStats _stats;
     [SerializeField] private Slider _slider;
 
+    [Header("Invisibility")]
+    private bool _isInvOn = true;
 
     [Header("Orientation")]
     [SerializeField] private Transform _orientVisualRoot;
@@ -199,7 +201,18 @@ public class HeroEntity : MonoBehaviour
         _stats.ChangeStatPv(value);
     }
 
-
+    public void SetInv() //Set the invisibility of some objects ON or OFF
+    {
+        GameObject[] listOfInvItems = GameObject.FindGameObjectsWithTag("InvisibleObjects"); //Got objects from tag
+        if (_isInvOn) //Case where objects are not visible
+        {
+            foreach (GameObject invObject in listOfInvItems) invObject.SetActive(true);
+        } else //Case where objects are visible
+        {
+            foreach (GameObject invObject in listOfInvItems) invObject.SetActive(false);
+        }
+        _isInvOn = !_isInvOn; //On les flip
+    }
 
     private void _ApplyFallGravity()
     {

@@ -33,25 +33,30 @@ public class HeroController : MonoBehaviour
 
     private void Update()
     {
-        _UpdateJumpBuffer();
+        UpdateJumpBuffer();
 
         _entity.SetMoveDirX(GetInputMoveX());
 
-        if (_GetInputHeal())
+        if (GetInputHeal())
         {
             _entity.Heal(5);
         }
 
-        if (_EntityHasExitGround())
+        if (GetInputInv())
         {
-            _ResetCoyoteTime();
+            _entity.SetInv();
+        }
+
+        if (EntityHasExitGround())
+        {
+            ResetCoyoteTime();
         }
         else
         {
-            _UpdateCoyoteTime();
+            UpdateCoyoteTime();
         }
 
-        if (_GetInputDownJump())
+        if (GetInputDownJump())
         {
             if (_entity.IsTouchingGround || !_entity.IsJumping && !_entity.IsJumping)
             {
@@ -59,13 +64,13 @@ public class HeroController : MonoBehaviour
             }
             else
             {
-                _ResetJumpBuffer();
+                ResetJumpBuffer();
             }
         }
 
         if (IsJumperBufferActive())
         {
-            if ((_entity.IsTouchingGround || _IsCoyoteTimeActive()) && !_entity.IsJumping)
+            if ((_entity.IsTouchingGround || IsCoyoteTimeActive()) && !_entity.IsJumping)
             {
                 _entity.JumpStart();
             }
@@ -75,7 +80,7 @@ public class HeroController : MonoBehaviour
 
         if (_entity.IsJumpImpulsing)
         {
-            if (!_GetInputJump() && _entity.IsJumpMinDurationReached)
+            if (!GetInputJump() && _entity.IsJumpMinDurationReached)
             {
                 _entity.StopJumpImpulsion();
             }
@@ -112,22 +117,27 @@ public class HeroController : MonoBehaviour
     }
 
 
-    private bool _GetInputDownJump()
+    private bool GetInputDownJump()
     {
         return Input.GetKey(KeyCode.Space);
     }
 
-    private bool _GetInputJump()
+    private bool GetInputJump()
     {
         return Input.GetKey(KeyCode.Space);
     }
 
-    private bool _GetInputHeal()
+    private bool GetInputHeal()
     {
         return Input.GetKey(KeyCode.R);
     }
 
-    private void _ResetJumpBuffer()
+    private bool GetInputInv()
+    {
+        return Input.GetKey(KeyCode.V);
+    }
+
+    private void ResetJumpBuffer()
     {
         _jumpBufferTimer = 0f;
     }
@@ -136,7 +146,7 @@ public class HeroController : MonoBehaviour
         return _jumpBufferTimer < _jumpBufferDuration;
     }
 
-    private void _UpdateJumpBuffer()
+    private void UpdateJumpBuffer()
     {
         if (!IsJumperBufferActive()) return;
         {
@@ -144,35 +154,35 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    private void _CancelJumpBuffer()
+    private void CancelJumpBuffer()
     {
         _jumpBufferTimer = _jumpBufferDuration;
     }
 
     private void Start()
     {
-        _CancelJumpBuffer();
+        CancelJumpBuffer();
     }
 
-    private void _UpdateCoyoteTime()
+    private void UpdateCoyoteTime()
     {
-        if (!_IsCoyoteTimeActive()) return;
+        if (!IsCoyoteTimeActive()) return;
         {
             _coyoteTimeCountdown -= Time.deltaTime;
         }
     }
 
-    private void _ResetCoyoteTime()
+    private void ResetCoyoteTime()
     {
         _coyoteTimeCountdown = _coyoteTimeDuration;
     }
 
-    private bool _IsCoyoteTimeActive()
+    private bool IsCoyoteTimeActive()
     {
         return _coyoteTimeCountdown > 0f;
     }
 
-    private bool _EntityHasExitGround()
+    private bool EntityHasExitGround()
     {
         return _entityWasTouchingGround && !_entity.IsTouchingGround;
     }
