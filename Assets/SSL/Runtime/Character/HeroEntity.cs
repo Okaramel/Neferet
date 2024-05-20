@@ -29,6 +29,7 @@ public class HeroEntity : MonoBehaviour
 
     [Header("Invisibility")]
     private bool _isInvOn = true;
+    private GameObject[] _invObjects;
 
     [Header("Orientation")]
     [SerializeField] private Transform _orientVisualRoot;
@@ -70,6 +71,11 @@ public class HeroEntity : MonoBehaviour
 
         _slider.maxValue = _stats.pv;
         _slider.value = _stats.pv;
+        _invObjects = GameObject.FindGameObjectsWithTag("InvisibleObjects");
+        foreach (GameObject invObject in _invObjects)
+        {
+            invObject.SetActive(false);
+        }
     }
 
     public void SetMoveDirX(float dirX)
@@ -203,21 +209,20 @@ public class HeroEntity : MonoBehaviour
 
     public void SetInv() //Set the invisibility of some objects ON or OFF
     {
-        GameObject[] listOfInvItems = GameObject.FindGameObjectsWithTag("InvisibleObjects"); //Got objects from tag
+        Debug.Log("Hey");
         if (_isInvOn) //Case where objects are not visible
         {
-            foreach (GameObject invObject in listOfInvItems)
+            foreach (GameObject invObject in _invObjects)
             {
                 invObject.SetActive(true);
                 Debug.Log(invObject.name);
             }
         } else //Case where objects are visible
         {
-            foreach (GameObject invObject in listOfInvItems)
+            foreach (GameObject invObject in _invObjects)
             {
                 invObject.SetActive(false);
                 Debug.Log(invObject.name);
-
             }
 
         }
