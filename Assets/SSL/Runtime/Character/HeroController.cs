@@ -134,7 +134,7 @@ public class HeroController : MonoBehaviour
 
     private bool GetInputInv()
     {
-        return Input.GetKey(KeyCode.V);
+        return Input.GetKeyDown(KeyCode.V);
     }
 
     private void ResetJumpBuffer()
