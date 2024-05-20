@@ -206,10 +206,20 @@ public class HeroEntity : MonoBehaviour
         GameObject[] listOfInvItems = GameObject.FindGameObjectsWithTag("InvisibleObjects"); //Got objects from tag
         if (_isInvOn) //Case where objects are not visible
         {
-            foreach (GameObject invObject in listOfInvItems) invObject.SetActive(true);
+            foreach (GameObject invObject in listOfInvItems)
+            {
+                invObject.SetActive(true);
+                Debug.Log(invObject.name);
+            }
         } else //Case where objects are visible
         {
-            foreach (GameObject invObject in listOfInvItems) invObject.SetActive(false);
+            foreach (GameObject invObject in listOfInvItems)
+            {
+                invObject.SetActive(false);
+                Debug.Log(invObject.name);
+
+            }
+
         }
         _isInvOn = !_isInvOn; //On les flip
     }
