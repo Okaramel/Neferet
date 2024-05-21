@@ -63,6 +63,7 @@ public class HeroEntity : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;
 
+    [SerializeField] Animator _animator;
     private void Awake()
     {
         _cameraFollowable = GetComponent<CameraFollowable>();
@@ -85,6 +86,7 @@ public class HeroEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _animator.SetFloat("Speed", Mathf.Abs(_horizontalSpeed));
         _slider.value = _stats.pv;
         _ApplyGroundDetection();
         _UpdateCameraFollowPosition();
